@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Cloudinary">
+  <defs><linearGradient id="c" x1="14" y1="18" x2="82" y2="78" gradientUnits="userSpaceOnUse"><stop stop-color="#3448c5"/><stop offset="1" stop-color="#47b5ff"/></linearGradient></defs>
+  <path d="M29 75h43c11 0 19-8 19-18S83 39 73 38C68 24 57 16 43 16 26 16 13 29 13 46v2C6 51 2 57 2 64c0 10 8 17 18 17h9v-6Z" fill="url(#c)"/>
+  <path d="m50 28 5 12 13 1-10 8 3 13-11-7-11 7 3-13-10-8 13-1 5-12Z" fill="#fff"/>
+</svg>

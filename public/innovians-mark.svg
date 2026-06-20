@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 72" role="img" aria-label="Innovians inspired mark">
+  <defs><linearGradient id="g" x1="10" y1="10" x2="86" y2="62" gradientUnits="userSpaceOnUse"><stop stop-color="#6677ff"/><stop offset="1" stop-color="#8c46d9"/></linearGradient></defs>
+  <rect width="96" height="72" rx="18" fill="url(#g)"/>
+  <circle cx="34" cy="21" r="7" fill="#c7ff32"/>
+  <path d="M29 33h11v26H29zM48 33h10l10 14V33h10v26H68L58 45v14H48z" fill="#fff"/>
+</svg>

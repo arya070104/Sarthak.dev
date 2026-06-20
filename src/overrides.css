@@ -1,0 +1,253 @@
+/* Final behavior override: decorative planet, independent of the pointer. */
+.ambient-orb {
+  position: fixed;
+  z-index: 100;
+  left: auto;
+  right: 32px;
+  top: auto;
+  bottom: 28px;
+  width: clamp(130px, 12vw, 190px);
+  transform: none;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  will-change: transform, left, top;
+  animation: ambient-drift 8s ease-in-out infinite;
+  opacity: .92;
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 24px 55px rgba(102,119,255,.4));
+}
+
+html[data-theme="dark"] .ambient-orb {
+  opacity: .95;
+  mix-blend-mode: normal;
+}
+
+/* Neon planet skin */
+.ambient-orb .orb-core {
+  background:
+    radial-gradient(circle at 30% 24%, #ffffff 0 2%, #70f7ff 3% 7%, transparent 8%),
+    radial-gradient(circle at 35% 30%, rgba(44, 246, 255, .95), rgba(94, 58, 255, .9) 37%, #170b35 70%, #070511 100%);
+  border: 1px solid rgba(112, 247, 255, .7);
+  box-shadow:
+    inset -20px -18px 34px rgba(0, 0, 0, .65),
+    inset 12px 10px 24px rgba(255, 255, 255, .16),
+    0 0 16px #37efff,
+    0 0 40px rgba(55, 239, 255, .72),
+    0 0 75px rgba(154, 74, 255, .5);
+}
+
+.ambient-orb .orb-core::before {
+  border-color: rgba(255,255,255,.35);
+  background:
+    linear-gradient(118deg, transparent 24%, rgba(55,239,255,.2) 38%, rgba(255,65,202,.32) 50%, transparent 64%),
+    repeating-linear-gradient(15deg, transparent 0 12px, rgba(112,247,255,.08) 13px 15px);
+}
+
+.ambient-orb .ring-a {
+  border: 2px solid #3ff3ff;
+  box-shadow: 0 0 8px #3ff3ff, 0 0 22px rgba(63,243,255,.85), inset 0 0 12px rgba(63,243,255,.5);
+}
+
+.ambient-orb .ring-b {
+  border: 2px solid #ff41ca;
+  box-shadow: 0 0 8px #ff41ca, 0 0 22px rgba(255,65,202,.8), inset 0 0 12px rgba(255,65,202,.45);
+}
+
+.ambient-orb .satellite-a {
+  background: #7dff3f;
+  box-shadow: 0 0 8px #7dff3f, 0 0 20px #7dff3f;
+}
+
+.ambient-orb .satellite-b {
+  background: #ff41ca;
+  box-shadow: 0 0 8px #ff41ca, 0 0 20px #ff41ca;
+}
+
+.ambient-orb:hover .orb-core {
+  filter: saturate(1.35) brightness(1.15);
+  box-shadow: 0 0 20px #37efff, 0 0 55px rgba(55,239,255,.9), 0 0 95px rgba(255,65,202,.65);
+}
+
+/* =========================================================
+   SPACE SYSTEM — lunar by day, deep-space by night
+   ========================================================= */
+body {
+  background: #edf0f8;
+  background-image: linear-gradient(145deg, #f5f3ee, #e7ebf7 52%, #ede7f5);
+}
+
+html[data-theme="dark"] body {
+  background: #070810;
+  background-image: radial-gradient(circle at 50% -20%, #24214c 0, #101222 35%, #070810 72%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  opacity: .34;
+  background-image:
+    radial-gradient(circle, #6677ff 0 1px, transparent 1.5px),
+    radial-gradient(circle, #ff7048 0 1px, transparent 1.5px),
+    radial-gradient(circle, #fff 0 1px, transparent 1.6px);
+  background-position: 0 0, 42px 68px, 86px 28px;
+  background-size: 118px 118px, 173px 173px, 227px 227px;
+  animation: star-drift 80s linear infinite;
+}
+
+html[data-theme="dark"] body::before { opacity: .72; }
+
+body::after {
+  content: "";
+  position: fixed;
+  z-index: 0;
+  top: 18%;
+  left: -20%;
+  width: 170px;
+  height: 1px;
+  pointer-events: none;
+  opacity: .55;
+  background: linear-gradient(90deg, transparent, #7bf6ff, transparent);
+  box-shadow: 0 0 10px #7bf6ff;
+  transform: rotate(-24deg);
+  animation: shooting-star 12s 3s ease-in-out infinite;
+}
+
+main, footer { position: relative; z-index: 1; }
+
+.site-header.scrolled {
+  background: rgba(238, 241, 250, .72);
+  border-color: rgba(102, 119, 255, .22);
+  box-shadow: 0 10px 38px rgba(52, 58, 120, .12);
+}
+
+html[data-theme="dark"] .site-header.scrolled {
+  background: rgba(8, 9, 19, .72);
+  border-color: rgba(112, 247, 255, .2);
+  box-shadow: 0 10px 38px rgba(0, 0, 0, .35), 0 1px rgba(112,247,255,.08);
+}
+
+.eyebrow { color: #5262dc; }
+html[data-theme="dark"] .eyebrow { color: #70f7ff; text-shadow: 0 0 18px rgba(112,247,255,.4); }
+
+.hero-mark {
+  background:
+    radial-gradient(circle at 31% 25%, #faffdb 0 3%, #c7ff32 4% 16%, #6677ff 48%, #171331 74%);
+  color: white;
+  border: 1px solid rgba(199,255,50,.72);
+  box-shadow: inset -35px -32px 65px rgba(7,8,16,.58), 0 0 30px rgba(102,119,255,.35), 0 0 75px rgba(199,255,50,.18);
+}
+
+.hero-mark .orbit { border-color: rgba(112,247,255,.72); box-shadow: 0 0 12px rgba(112,247,255,.3); }
+.hero-mark .orbit.two { border-color: rgba(255,112,72,.68); box-shadow: 0 0 12px rgba(255,112,72,.25); }
+
+.button {
+  background: linear-gradient(120deg, #252358, #6677ff);
+  border: 1px solid rgba(255,255,255,.2);
+  box-shadow: 0 10px 28px rgba(102,119,255,.25);
+}
+
+html[data-theme="dark"] .button {
+  color: white;
+  background: linear-gradient(120deg, #29265c, #6677ff);
+  box-shadow: 0 0 24px rgba(102,119,255,.35);
+}
+
+.hero-toolbox,
+.project-card:not(.dark),
+.featured {
+  border-color: rgba(102,119,255,.28);
+  background: linear-gradient(135deg, rgba(255,255,255,.58), rgba(230,234,255,.25));
+  box-shadow: inset 0 1px rgba(255,255,255,.65), 0 22px 65px rgba(48,54,120,.08);
+}
+
+html[data-theme="dark"] .hero-toolbox,
+html[data-theme="dark"] .project-card:not(.dark),
+html[data-theme="dark"] .featured {
+  border-color: rgba(112,247,255,.17);
+  background: linear-gradient(135deg, rgba(30,31,63,.72), rgba(12,14,29,.56));
+  box-shadow: inset 0 1px rgba(112,247,255,.08), 0 25px 70px rgba(0,0,0,.2);
+}
+
+.project-visual {
+  background-color: #171a48;
+  background-image:
+    radial-gradient(circle at 25% 20%, rgba(112,247,255,.35), transparent 25%),
+    radial-gradient(circle at 75% 75%, rgba(255,65,202,.25), transparent 28%),
+    linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+}
+
+.experience {
+  background: radial-gradient(circle at 85% 10%, #29204b, transparent 30%), linear-gradient(145deg, #090a13, #121426);
+}
+
+.timeline-item { transition: background .35s, padding .35s; }
+.timeline-item:hover { padding-left: 18px; padding-right: 18px; background: linear-gradient(90deg, rgba(102,119,255,.12), transparent); }
+
+.contact {
+  color: white;
+  background:
+    radial-gradient(circle at 50% 120%, rgba(255,65,202,.55), transparent 35%),
+    radial-gradient(circle at 15% 10%, rgba(112,247,255,.28), transparent 28%),
+    linear-gradient(135deg, #10122b, #29215d 52%, #11142c);
+  border-top: 1px solid rgba(112,247,255,.24);
+}
+
+.contact h2 em { color: #70f7ff; text-shadow: 0 0 30px rgba(112,247,255,.34); }
+.contact > a { color: white; }
+
+footer {
+  background: #06070d;
+  border-top: 1px solid rgba(112,247,255,.14);
+}
+
+.tech-logo { border-color: rgba(102,119,255,.23); }
+html[data-theme="dark"] .tech-logo { border-color: rgba(112,247,255,.16); }
+
+@keyframes star-drift { to { background-position: 118px 118px, -131px 241px, 313px -199px; } }
+@keyframes shooting-star {
+  0%, 72% { opacity: 0; transform: translate3d(0,0,0) rotate(-24deg); }
+  76% { opacity: .8; }
+  88%, 100% { opacity: 0; transform: translate3d(145vw,72vh,0) rotate(-24deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before, body::after { animation: none; }
+}
+
+.ambient-orb::after {
+  content: "drag me";
+  position: absolute;
+  left: 50%;
+  bottom: -12px;
+  padding: 5px 8px;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 20px;
+  color: white;
+  background: rgba(17,17,15,.65);
+  backdrop-filter: blur(8px);
+  font: 500 .5rem var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, 6px);
+  transition: opacity .25s, transform .25s;
+}
+
+.ambient-orb:hover::after { opacity: 1; transform: translate(-50%, 0); }
+.ambient-orb:hover .orb-core { filter: saturate(1.25) brightness(1.08); }
+.ambient-orb.dragging { cursor: grabbing; animation: none; transform: scale(1.06); }
+.ambient-orb.dragging .ring-a { animation-duration: 2.2s; }
+.ambient-orb.dragging .ring-b { animation-duration: 2.8s; }
+.ambient-orb.dragging::after { content: "wheee"; opacity: 1; transform: translate(-50%, 0); }
+
+@keyframes ambient-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-2deg); }
+  50% { transform: translate3d(0, -18px, 0) rotate(2deg); }
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 72" role="img" aria-label="Honda inspired mark">
+  <rect width="96" height="72" rx="18" fill="#fff"/>
+  <path d="M18 40c18-1 30-8 43-26-4 15-12 25-25 32 12-3 23-10 36-24-5 15-16 26-34 31 13-1 24-6 37-16-8 15-23 23-46 23-8 0-13-7-11-20Z" fill="#d81920"/>
+  <path d="M15 59h66" stroke="#d81920" stroke-width="4" stroke-linecap="round"/>
+</svg>
