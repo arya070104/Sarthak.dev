@@ -20,6 +20,72 @@ themeToggle.addEventListener('click', () => {
   localStorage.setItem('theme', nextTheme);
   setTheme(nextTheme);
 });
+
+const menuToggle = document.querySelector('.menu-toggle');
+const mobileMenu = document.querySelector('.mobile-menu');
+const setMobileMenu = open => {
+  document.body.classList.toggle('menu-open', open);
+  menuToggle.setAttribute('aria-expanded', String(open));
+  menuToggle.setAttribute('aria-label', `${open ? 'Close' : 'Open'} menu`);
+  mobileMenu.setAttribute('aria-hidden', String(!open));
+};
+menuToggle.addEventListener('click', () => setMobileMenu(!document.body.classList.contains('menu-open')));
+mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMobileMenu(false)));
+
+const commandDialog = document.querySelector('.command-palette');
+const commandTrigger = document.querySelector('.command-trigger');
+const commandInput = commandDialog.querySelector('input');
+const commandLinks = [...commandDialog.querySelectorAll('[data-command]')];
+const openCommands = () => {
+  if (!commandDialog.open) commandDialog.showModal();
+  commandInput.value = '';
+  commandLinks.forEach(link => { link.hidden = false; });
+  requestAnimationFrame(() => commandInput.focus());
+};
+const closeCommands = () => { if (commandDialog.open) commandDialog.close(); };
+commandTrigger.addEventListener('click', openCommands);
+commandDialog.querySelector('.command-close').addEventListener('click', closeCommands);
+commandDialog.addEventListener('click', event => { if (event.target === commandDialog) closeCommands(); });
+commandLinks.forEach(link => link.addEventListener('click', closeCommands));
+commandInput.addEventListener('input', () => {
+  const query = commandInput.value.trim().toLowerCase();
+  commandLinks.forEach(link => { link.hidden = !link.textContent.toLowerCase().includes(query); });
+});
+commandDialog.addEventListener('keydown', event => {
+  if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+  event.preventDefault();
+  const visibleLinks = commandLinks.filter(link => !link.hidden);
+  if (!visibleLinks.length) return;
+  const activeIndex = visibleLinks.indexOf(document.activeElement);
+  const direction = event.key === 'ArrowDown' ? 1 : -1;
+  const nextIndex = activeIndex === -1
+    ? (direction === 1 ? 0 : visibleLinks.length - 1)
+    : (activeIndex + direction + visibleLinks.length) % visibleLinks.length;
+  visibleLinks[nextIndex].focus();
+});
+
+document.addEventListener('keydown', event => {
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+    event.preventDefault();
+    openCommands();
+  }
+  if (event.key === 'Escape') setMobileMenu(false);
+});
+
+const backTop = document.querySelector('.back-top');
+backTop.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
+
+document.querySelectorAll('button, .button, .social-links a').forEach(element => {
+  element.addEventListener('pointerdown', event => {
+    const rect = element.getBoundingClientRect();
+    const ripple = document.createElement('i');
+    ripple.className = 'click-ripple';
+    ripple.style.left = `${event.clientX - rect.left}px`;
+    ripple.style.top = `${event.clientY - rect.top}px`;
+    element.append(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+  });
+});
 const observer = new IntersectionObserver(entries => entries.forEach(entry => {
   if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
 }), { threshold: .12 });
@@ -146,6 +212,7 @@ const updateScrollUI = () => {
   const maxScroll = document.documentElement.scrollHeight - innerHeight;
   progress.style.transform = `scaleX(${maxScroll > 0 ? scrollY / maxScroll : 0})`;
   header.classList.toggle('scrolled', scrollY > 24);
+  backTop.classList.toggle('visible', scrollY > innerHeight * .75);
 };
 let scrollFrameRequested = false;
 addEventListener('scroll', () => {

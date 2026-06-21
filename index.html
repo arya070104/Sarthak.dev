@@ -15,8 +15,16 @@
   <header class="site-header">
     <a class="brand" href="#top" aria-label="Sarthak Arya, back to top"><b>SA<span>.</span></b><span class="brand-name"><i>Sarthak</i><i>Arya</i></span></a>
     <nav aria-label="Main navigation"><a href="#work">Work</a><a href="#experience">Experience</a><a href="#about">About</a></nav>
-    <div class="header-actions"><button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="sun" aria-hidden="true">☼</span><span class="moon" aria-hidden="true">◐</span></button><a class="header-cta" href="mailto:sarthakarya1068a@gmail.com">Let's talk ↗</a></div>
+    <div class="header-actions"><button class="command-trigger" type="button" aria-label="Open quick navigation"><span>Quick jump</span><kbd>Ctrl K</kbd></button><button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="sun" aria-hidden="true">☼</span><span class="moon" aria-hidden="true">◐</span></button><a class="header-cta" href="mailto:sarthakarya1068a@gmail.com">Let's talk ↗</a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><i></i><i></i></button></div>
   </header>
+
+  <aside class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-inner">
+      <p class="eyebrow">Navigate / sarthak.dev</p>
+      <nav aria-label="Mobile navigation"><a href="#work"><span>01</span>Work</a><a href="#experience"><span>02</span>Experience</a><a href="#about"><span>03</span>About</a><a href="/Sarthak_Arya_Resume.pdf" target="_blank" rel="noopener"><span>04</span>Résumé ↗</a></nav>
+      <div class="mobile-menu-meta"><a href="https://github.com/arya070104" target="_blank" rel="noopener">GitHub ↗</a><a href="https://www.linkedin.com/in/sarthak-arya070104/" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+    </div>
+  </aside>
 
   <main id="top">
     <section class="hero shell">
@@ -38,7 +46,7 @@
 
     <section id="work" class="work shell">
       <header class="section-head reveal"><div><p class="eyebrow">Selected work / 2024—26</p><h2>Things I’ve<br><em>brought to life.</em></h2></div><p>From civic tech to attendance systems, each project started with a practical problem worth solving.</p></header>
-      <article class="featured project reveal">
+      <article class="featured project reveal" tabindex="0">
         <div class="project-visual">
           <span class="visual-label">01 / Flagship</span>
           <div class="phone"><div class="phone-bar"><span></span><b>Civic Connect</b><i>•••</i></div><div class="map"><i></i><i></i><i></i><b class="pin p1">!</b><b class="pin p2">!</b><b class="pin p3">!</b></div><div class="issue"><span>Road damage</span><b>In progress</b></div></div>
@@ -46,9 +54,9 @@
         <div class="project-info"><span class="index">01</span><h3>Civic Connect</h3><small>Civic issue reporting platform</small><p>A full-stack mobile app that lets citizens report local issues, share locations and media, and follow resolution updates in real time.</p><ul class="tags"><li>Flutter</li><li>Firebase</li><li>Gemini AI</li><li>OpenStreetMap</li></ul><a class="project-link" href="https://github.com/arya070104" target="_blank" rel="noopener">View project ↗</a></div>
       </article>
       <div class="project-grid">
-        <article class="project-card reveal"><div class="card-top">02 <span>Mobile app</span></div><div class="qr" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><h3>AttendEase</h3><p>QR-based attendance with secure student login, a faculty dashboard, and real-time records.</p><ul class="tags"><li>Flutter</li><li>Firestore</li><li>Auth</li></ul></article>
-        <article class="project-card dark reveal"><div class="card-top">03 <span>Enterprise web</span></div><div class="chart"><div><b>Inventory</b><span>Live overview</span></div><p><i></i><i></i><i></i><i></i><i></i></p><strong>1,248 <small>items tracked</small></strong></div><h3>Inventory System</h3><p>Automated stock workflows, reporting, and CRUD operations for real-time inventory control.</p><ul class="tags"><li>Python</li><li>Streamlit</li><li>MySQL</li></ul></article>
-        <article class="project-card wide reveal"><div class="card-top">04 <span>AI / NLP</span></div><div class="wide-grid"><div><h3>Text Summarization</h3><p>A transformer-powered NLP pipeline that turns long-form text into useful, concise summaries.</p><ul class="tags"><li>Python</li><li>BERT</li><li>Transformers</li></ul></div><div class="text-art"><i></i><i></i><i></i><i></i><i></i><i></i><b>TL;DR</b></div></div></article>
+        <article class="project-card reveal" tabindex="0"><div class="card-top">02 <span>Mobile app</span></div><div class="qr" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><h3>AttendEase</h3><p>QR-based attendance with secure student login, a faculty dashboard, and real-time records.</p><ul class="tags"><li>Flutter</li><li>Firestore</li><li>Auth</li></ul></article>
+        <article class="project-card dark reveal" tabindex="0"><div class="card-top">03 <span>Enterprise web</span></div><div class="chart"><div><b>Inventory</b><span>Live overview</span></div><p><i></i><i></i><i></i><i></i><i></i></p><strong>1,248 <small>items tracked</small></strong></div><h3>Inventory System</h3><p>Automated stock workflows, reporting, and CRUD operations for real-time inventory control.</p><ul class="tags"><li>Python</li><li>Streamlit</li><li>MySQL</li></ul></article>
+        <article class="project-card wide reveal" tabindex="0"><div class="card-top">04 <span>AI / NLP</span></div><div class="wide-grid"><div><h3>Text Summarization</h3><p>A transformer-powered NLP pipeline that turns long-form text into useful, concise summaries.</p><ul class="tags"><li>Python</li><li>BERT</li><li>Transformers</li></ul></div><div class="text-art"><i></i><i></i><i></i><i></i><i></i><i></i><b>TL;DR</b></div></div></article>
       </div>
     </section>
 
@@ -114,6 +122,13 @@
     <section class="contact shell"><p class="eyebrow reveal">Have a project, role, or idea?</p><h2 class="reveal">Let’s make something<br><em>worth using.</em></h2><a class="reveal" href="mailto:sarthakarya1068a@gmail.com">sarthakarya1068a@gmail.com ↗</a></section>
   </main>
   <footer><p class="copyright">Copyright © <span id="year"></span> Sarthak Arya.<br><small>All rights reserved.</small></p><div class="social-links"><a href="https://github.com/arya070104" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2.23c-3.22.7-3.9-1.37-3.9-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.72 1.27 3.38.97.1-.75.4-1.27.74-1.56-2.57-.29-5.27-1.29-5.27-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.16 1.18A10.9 10.9 0 0 1 12 6.11c.98 0 1.96.13 2.88.39 2.19-1.49 3.15-1.18 3.15-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.71 5.39-5.29 5.68.42.36.79 1.06.79 2.14v3.27c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z"/></svg><span>GitHub</span><i>↗</i></a><a href="https://www.linkedin.com/in/sarthak-arya070104/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V8.98h3.42v1.57h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.29ZM5.32 7.41a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13Zm1.78 13.04H3.54V8.98H7.1v11.47Z"/></svg><span>LinkedIn</span><i>↗</i></a></div><a href="#top">Back to top ↑</a></footer>
+  <button class="back-top" type="button" aria-label="Back to top"><span>↑</span><small>Top</small></button>
+  <dialog class="command-palette" aria-labelledby="command-title">
+    <div class="command-head"><div><span class="command-dot"></span><p id="command-title">Quick navigation</p></div><button class="command-close" type="button" aria-label="Close quick navigation">Esc</button></div>
+    <label class="command-search"><span>⌕</span><input type="search" placeholder="Type a destination…" autocomplete="off" aria-label="Filter destinations"></label>
+    <div class="command-list"><a href="#work" data-command><span>Selected work</span><kbd>01</kbd></a><a href="#experience" data-command><span>Experience</span><kbd>02</kbd></a><a href="#about" data-command><span>About me</span><kbd>03</kbd></a><a href="/Sarthak_Arya_Resume.pdf" target="_blank" rel="noopener" data-command><span>Open résumé</span><kbd>↗</kbd></a><a href="mailto:sarthakarya1068a@gmail.com" data-command><span>Send an email</span><kbd>↗</kbd></a><a href="https://github.com/arya070104" target="_blank" rel="noopener" data-command><span>GitHub profile</span><kbd>↗</kbd></a></div>
+    <p class="command-help"><span>↑↓ Navigate</span><span>Enter Open</span><span>Esc Close</span></p>
+  </dialog>
   <div class="ambient-orb" aria-hidden="true"><span class="orb-core"></span><i class="orb-ring ring-a"></i><i class="orb-ring ring-b"></i><i class="orb-satellite satellite-a"></i><i class="orb-satellite satellite-b"></i></div>
   <script type="module" src="/src/main.js"></script>
 </body>
