@@ -21,6 +21,22 @@ themeToggle.addEventListener('click', () => {
   setTheme(nextTheme);
 });
 
+const recruiterToggle = document.querySelector('.recruiter-toggle');
+const mobileRecruiterToggle = document.querySelector('.mobile-recruiter-toggle');
+const setRecruiterMode = enabled => {
+  document.body.classList.toggle('recruiter-mode', enabled);
+  recruiterToggle.setAttribute('aria-pressed', String(enabled));
+  recruiterToggle.querySelector('span').textContent = enabled ? 'Creative view' : 'Recruiter view';
+  mobileRecruiterToggle.querySelector('span').textContent = enabled ? 'Switch to creative view' : 'Switch to recruiter view';
+  localStorage.setItem('recruiter-mode', String(enabled));
+};
+setRecruiterMode(localStorage.getItem('recruiter-mode') === 'true');
+recruiterToggle.addEventListener('click', () => setRecruiterMode(!document.body.classList.contains('recruiter-mode')));
+mobileRecruiterToggle.addEventListener('click', () => {
+  setRecruiterMode(!document.body.classList.contains('recruiter-mode'));
+  setMobileMenu(false);
+});
+
 const menuToggle = document.querySelector('.menu-toggle');
 const mobileMenu = document.querySelector('.mobile-menu');
 const setMobileMenu = open => {
@@ -86,6 +102,86 @@ document.querySelectorAll('button, .button, .social-links a').forEach(element =>
     ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
   });
 });
+
+const caseStudies = {
+  civic: {
+    type: 'Full-stack mobile · 2025—26',
+    title: 'Civic Connect',
+    summary: 'A citizen-first platform for reporting public issues and following their resolution in real time.',
+    stack: ['Flutter', 'Firebase', 'Gemini AI', 'Cloudinary', 'OpenStreetMap'],
+    problem: 'Public issues are often reported through fragmented channels with little visibility after submission. The product needed a simple reporting flow and a transparent status trail.',
+    approach: 'I designed a Flutter application backed by Firebase, with authentication, location-aware posts, media uploads, real-time updates, and AI-assisted functionality.',
+    highlights: ['Secure user authentication', 'Location and media-rich issue reports', 'Real-time status updates', 'Scalable user-generated content model'],
+    flow: ['Citizen', 'Flutter app', 'Firebase', 'Gemini / Maps', 'Resolution status'],
+  },
+  attendance: {
+    type: 'Mobile application · 2025',
+    title: 'AttendEase',
+    summary: 'A QR-based attendance workflow designed for fast student check-ins and clear faculty oversight.',
+    stack: ['Flutter', 'Firebase Auth', 'Cloud Firestore', 'QR'],
+    problem: 'Manual attendance is slow, repetitive, and difficult to reconcile. Students and faculty needed distinct, secure workflows connected to one live data source.',
+    approach: 'I built student authentication, QR attendance capture, a faculty dashboard, and real-time attendance records in a single Flutter application.',
+    highlights: ['Role-aware student and faculty flows', 'QR attendance capture', 'Real-time cloud records', 'Simple mobile-first interface'],
+    flow: ['Student', 'QR scan', 'Authentication', 'Firestore', 'Faculty dashboard'],
+  },
+  inventory: {
+    type: 'Enterprise web · HMSI internship',
+    title: 'Inventory Management',
+    summary: 'An operational dashboard for managing stock records, automating updates, and improving inventory visibility.',
+    stack: ['Python', 'Streamlit', 'MySQL'],
+    problem: 'Inventory operations needed a clearer way to create, update, track, and report product records without repetitive manual handling.',
+    approach: 'I created a Streamlit interface connected to MySQL with complete CRUD operations, stock tracking, and reporting-focused workflows.',
+    highlights: ['Complete CRUD operations', 'Database-backed inventory tracking', 'Reporting dashboard', 'Workflow automation'],
+    flow: ['Operator', 'Streamlit UI', 'Validation', 'MySQL', 'Reports'],
+  },
+  summarization: {
+    type: 'AI / NLP · 2024',
+    title: 'Text Summarization',
+    summary: 'A transformer-based NLP pipeline that converts long-form input into concise, useful summaries.',
+    stack: ['Python', 'BERT', 'Transformers', 'NLP'],
+    problem: 'Large text inputs take time to review and often contain more detail than a reader needs for an initial understanding.',
+    approach: 'I processed textual datasets and implemented a BERT-based summarization workflow to produce shorter representations of long content.',
+    highlights: ['Transformer-based processing', 'Custom NLP pipeline', 'Large-text input handling', 'Concise generated summaries'],
+    flow: ['Long text', 'Preprocessing', 'BERT model', 'Post-processing', 'Summary'],
+  },
+};
+
+const caseDialog = document.querySelector('.case-study-dialog');
+const openCaseStudy = key => {
+  const study = caseStudies[key];
+  if (!study) return;
+  caseDialog.querySelector('.case-study-type').textContent = study.type;
+  caseDialog.querySelector('#case-study-title').textContent = study.title;
+  caseDialog.querySelector('.case-study-summary').textContent = study.summary;
+  caseDialog.querySelector('.case-study-stack').innerHTML = study.stack.map(item => `<span>${item}</span>`).join('');
+  caseDialog.querySelector('[data-case-section="problem"]').textContent = study.problem;
+  caseDialog.querySelector('[data-case-section="approach"]').textContent = study.approach;
+  caseDialog.querySelector('[data-case-section="highlights"]').innerHTML = study.highlights.map(item => `<li>${item}</li>`).join('');
+  caseDialog.querySelector('.case-study-flow').innerHTML = study.flow.map((item, index) => `${index ? '<i>→</i>' : ''}<span>${item}</span>`).join('');
+  caseDialog.showModal();
+};
+document.querySelectorAll('[data-case-study]').forEach(button => button.addEventListener('click', () => openCaseStudy(button.dataset.caseStudy)));
+caseDialog.querySelector('.case-study-close').addEventListener('click', () => caseDialog.close());
+caseDialog.addEventListener('click', event => { if (event.target === caseDialog) caseDialog.close(); });
+
+const constellation = document.querySelector('.skill-constellation');
+const constellationNodes = [...constellation.querySelectorAll('.skill-node')];
+const constellationLines = [...constellation.querySelectorAll('[data-connect]')];
+const constellationInfo = constellation.querySelector('.constellation-info');
+const activateSkill = node => {
+  const skill = node.dataset.skill;
+  constellationNodes.forEach(item => item.classList.toggle('active', item === node || constellationLines.some(line => line.dataset.connect.includes(skill) && line.dataset.connect.includes(item.dataset.skill))));
+  constellationLines.forEach(line => line.classList.toggle('active', line.dataset.connect.split(' ').includes(skill)));
+  constellationInfo.querySelector('span').textContent = node.textContent;
+  constellationInfo.querySelector('b').textContent = node.dataset.projects;
+  constellationInfo.querySelector('p').textContent = node.dataset.description;
+};
+constellationNodes.forEach(node => {
+  node.addEventListener('mouseenter', () => activateSkill(node));
+  node.addEventListener('focus', () => activateSkill(node));
+  node.addEventListener('click', () => activateSkill(node));
+});
+if (constellationNodes[0]) activateSkill(constellationNodes[0]);
 const observer = new IntersectionObserver(entries => entries.forEach(entry => {
   if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
 }), { threshold: .12 });
