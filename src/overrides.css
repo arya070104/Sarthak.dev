@@ -242,9 +242,7 @@ html[data-theme="dark"] .tech-logo { border-color: rgba(112,247,255,.16); }
 
 .ambient-orb:hover::after { opacity: 1; transform: translate(-50%, 0); }
 .ambient-orb:hover .orb-core { filter: saturate(1.25) brightness(1.08); }
-.ambient-orb.dragging { cursor: grabbing; animation: none; transform: scale(1.06); }
-.ambient-orb.dragging .ring-a { animation-duration: 2.2s; }
-.ambient-orb.dragging .ring-b { animation-duration: 2.8s; }
+.ambient-orb.dragging { cursor: grabbing; filter: drop-shadow(0 24px 65px rgba(112,247,255,.58)) brightness(1.08); }
 .ambient-orb.dragging::after { content: "wheee"; opacity: 1; transform: translate(-50%, 0); }
 
 @keyframes ambient-drift {
