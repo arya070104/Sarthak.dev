@@ -31,6 +31,20 @@ const finePointer = matchMedia('(pointer: fine)').matches;
 const header = document.querySelector('.site-header');
 const progress = document.querySelector('.scroll-progress');
 
+// A persistent animation timeline prevents press/drag/release from resetting
+// either orbital ring on mobile browser compositors.
+if (ambientOrb && !reducedMotion) {
+  ambientOrb.querySelector('.ring-a')?.animate([
+    { transform: 'translate(-50%, -50%) rotateX(62deg) rotateZ(0deg)' },
+    { transform: 'translate(-50%, -50%) rotateX(62deg) rotateZ(360deg)' },
+  ], { duration: 11000, iterations: Infinity, easing: 'linear' });
+
+  ambientOrb.querySelector('.ring-b')?.animate([
+    { transform: 'translate(-50%, -50%) rotateY(64deg) rotateZ(380deg)' },
+    { transform: 'translate(-50%, -50%) rotateY(64deg) rotateZ(20deg)' },
+  ], { duration: 15000, iterations: Infinity, easing: 'linear' });
+}
+
 const updateScrollUI = () => {
   const maxScroll = document.documentElement.scrollHeight - innerHeight;
   progress.style.transform = `scaleX(${maxScroll > 0 ? scrollY / maxScroll : 0})`;

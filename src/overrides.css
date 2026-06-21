@@ -242,7 +242,7 @@ html[data-theme="dark"] .tech-logo { border-color: rgba(112,247,255,.16); }
 
 .ambient-orb:hover::after { opacity: 1; transform: translate(-50%, 0); }
 .ambient-orb:hover .orb-core { filter: saturate(1.25) brightness(1.08); }
-.ambient-orb.dragging { cursor: grabbing; filter: drop-shadow(0 24px 65px rgba(112,247,255,.58)) brightness(1.08); }
+.ambient-orb.dragging { cursor: grabbing; }
 .ambient-orb.dragging::after { content: "wheee"; opacity: 1; transform: translate(-50%, 0); }
 
 @keyframes ambient-drift {
@@ -299,6 +299,10 @@ html[data-theme="dark"] .project-card.wide .text-art {
 }
 
 .brand-name i:last-child { margin-left: 22px; }
+
+/* Ring rotation is owned by one persistent JS timeline. */
+.ambient-orb .ring-a,
+.ambient-orb .ring-b { animation: none !important; }
 
 @media (max-width: 600px) {
   .brand-name { font-size: .78rem; }
