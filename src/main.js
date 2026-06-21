@@ -163,8 +163,8 @@ if (ambientOrb) {
     const rect = ambientOrb.getBoundingClientRect();
     dragOffsetX = event.clientX - rect.left;
     dragOffsetY = event.clientY - rect.top;
-    ambientOrb.style.left = `${rect.left}px`;
-    ambientOrb.style.top = `${rect.top}px`;
+    ambientOrb.style.left = `${rect.left + scrollX}px`;
+    ambientOrb.style.top = `${rect.top + scrollY}px`;
     ambientOrb.style.right = 'auto';
     ambientOrb.style.bottom = 'auto';
     ambientOrb.classList.add('dragging');
@@ -175,10 +175,12 @@ if (ambientOrb) {
 
   ambientOrb.addEventListener('pointermove', event => {
     if (!ambientOrb.classList.contains('dragging')) return;
-    const maxX = innerWidth - ambientOrb.offsetWidth - 10;
-    const maxY = innerHeight - ambientOrb.offsetHeight - 10;
-    ambientOrb.style.left = `${Math.min(maxX, Math.max(10, event.clientX - dragOffsetX))}px`;
-    ambientOrb.style.top = `${Math.min(maxY, Math.max(10, event.clientY - dragOffsetY))}px`;
+    const maxX = document.documentElement.scrollWidth - ambientOrb.offsetWidth - 10;
+    const maxY = document.documentElement.scrollHeight - ambientOrb.offsetHeight - 10;
+    const documentX = event.clientX + scrollX - dragOffsetX;
+    const documentY = event.clientY + scrollY - dragOffsetY;
+    ambientOrb.style.left = `${Math.min(maxX, Math.max(10, documentX))}px`;
+    ambientOrb.style.top = `${Math.min(maxY, Math.max(10, documentY))}px`;
   });
 
   const stopDragging = event => {

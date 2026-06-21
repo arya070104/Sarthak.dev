@@ -1,11 +1,11 @@
 /* Final behavior override: decorative planet, independent of the pointer. */
 .ambient-orb {
-  position: fixed;
+  position: absolute;
   z-index: 100;
   left: auto;
   right: 32px;
-  top: auto;
-  bottom: 28px;
+  top: 68vh;
+  bottom: auto;
   width: clamp(130px, 12vw, 190px);
   transform: none;
   pointer-events: auto;
@@ -285,8 +285,8 @@ html[data-theme="dark"] .project-card.wide .text-art {
     display: block !important;
     left: auto;
     right: 12px;
-    top: auto;
-    bottom: 16px;
+    top: 72vh;
+    bottom: auto;
     width: 108px;
     opacity: .88;
   }
