@@ -31,19 +31,27 @@ const finePointer = matchMedia('(pointer: fine)').matches;
 const header = document.querySelector('.site-header');
 const progress = document.querySelector('.scroll-progress');
 
-// A persistent animation timeline prevents press/drag/release from resetting
-// either orbital ring on mobile browser compositors.
+// Persistent timelines keep their exact angle while playback speed changes.
+const ringAnimations = [];
 if (ambientOrb && !reducedMotion) {
-  ambientOrb.querySelector('.ring-a')?.animate([
+  const ringAAnimation = ambientOrb.querySelector('.ring-a')?.animate([
     { transform: 'translate(-50%, -50%) rotateX(62deg) rotateZ(0deg)' },
     { transform: 'translate(-50%, -50%) rotateX(62deg) rotateZ(360deg)' },
   ], { duration: 11000, iterations: Infinity, easing: 'linear' });
 
-  ambientOrb.querySelector('.ring-b')?.animate([
+  const ringBAnimation = ambientOrb.querySelector('.ring-b')?.animate([
     { transform: 'translate(-50%, -50%) rotateY(64deg) rotateZ(380deg)' },
     { transform: 'translate(-50%, -50%) rotateY(64deg) rotateZ(20deg)' },
   ], { duration: 15000, iterations: Infinity, easing: 'linear' });
+
+  if (ringAAnimation) ringAnimations.push(ringAAnimation);
+  if (ringBAnimation) ringAnimations.push(ringBAnimation);
 }
+
+const setRingSpeed = speed => ringAnimations.forEach(animation => {
+  if (animation.updatePlaybackRate) animation.updatePlaybackRate(speed);
+  else animation.playbackRate = speed;
+});
 
 const updateScrollUI = () => {
   const maxScroll = document.documentElement.scrollHeight - innerHeight;
@@ -106,6 +114,8 @@ if (ambientOrb) {
     ambientOrb.style.right = 'auto';
     ambientOrb.style.bottom = 'auto';
     ambientOrb.classList.add('dragging');
+    setRingSpeed(5.5);
+    if ('vibrate' in navigator) navigator.vibrate([30, 20, 30]);
     ambientOrb.setPointerCapture(event.pointerId);
   });
 
@@ -120,6 +130,8 @@ if (ambientOrb) {
   const stopDragging = event => {
     if (!ambientOrb.classList.contains('dragging')) return;
     ambientOrb.classList.remove('dragging');
+    setRingSpeed(1);
+    if ('vibrate' in navigator) navigator.vibrate(0);
     if (ambientOrb.hasPointerCapture(event.pointerId)) ambientOrb.releasePointerCapture(event.pointerId);
   };
   ambientOrb.addEventListener('pointerup', stopDragging);

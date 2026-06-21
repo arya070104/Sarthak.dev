@@ -242,12 +242,19 @@ html[data-theme="dark"] .tech-logo { border-color: rgba(112,247,255,.16); }
 
 .ambient-orb:hover::after { opacity: 1; transform: translate(-50%, 0); }
 .ambient-orb:hover .orb-core { filter: saturate(1.25) brightness(1.08); }
-.ambient-orb.dragging { cursor: grabbing; }
+.ambient-orb.dragging { cursor: grabbing; animation: toy-shake .09s linear infinite; }
 .ambient-orb.dragging::after { content: "wheee"; opacity: 1; transform: translate(-50%, 0); }
 
 @keyframes ambient-drift {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(-2deg); }
   50% { transform: translate3d(0, -18px, 0) rotate(2deg); }
+}
+
+@keyframes toy-shake {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0); }
+  25% { transform: translate3d(-3px, 2px, 0) rotate(-2deg); }
+  50% { transform: translate3d(3px, -2px, 0) rotate(2deg); }
+  75% { transform: translate3d(-2px, -2px, 0) rotate(-1deg); }
 }
 
 /* Mobile + contrast fixes */
