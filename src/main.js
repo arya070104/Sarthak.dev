@@ -21,22 +21,6 @@ themeToggle.addEventListener('click', () => {
   setTheme(nextTheme);
 });
 
-const recruiterToggle = document.querySelector('.recruiter-toggle');
-const mobileRecruiterToggle = document.querySelector('.mobile-recruiter-toggle');
-const setRecruiterMode = enabled => {
-  document.body.classList.toggle('recruiter-mode', enabled);
-  recruiterToggle.setAttribute('aria-pressed', String(enabled));
-  recruiterToggle.querySelector('span').textContent = enabled ? 'Creative view' : 'Recruiter view';
-  mobileRecruiterToggle.querySelector('span').textContent = enabled ? 'Switch to creative view' : 'Switch to recruiter view';
-  localStorage.setItem('recruiter-mode', String(enabled));
-};
-setRecruiterMode(localStorage.getItem('recruiter-mode') === 'true');
-recruiterToggle.addEventListener('click', () => setRecruiterMode(!document.body.classList.contains('recruiter-mode')));
-mobileRecruiterToggle.addEventListener('click', () => {
-  setRecruiterMode(!document.body.classList.contains('recruiter-mode'));
-  setMobileMenu(false);
-});
-
 const menuToggle = document.querySelector('.menu-toggle');
 const mobileMenu = document.querySelector('.mobile-menu');
 const setMobileMenu = open => {
