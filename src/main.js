@@ -263,6 +263,22 @@ if (ambientOrb) {
   let dragOffsetX = 0;
   let dragOffsetY = 0;
   let orbUsesViewport = false;
+  const orbPadding = 38;
+
+  const keepOrbInsideSafeArea = () => {
+    const rect = ambientOrb.getBoundingClientRect();
+    const viewportOffset = orbUsesViewport ? 0 : scrollY;
+    const minX = orbPadding;
+    const minY = viewportOffset + header.offsetHeight + orbPadding;
+    const maxX = (orbUsesViewport ? innerWidth : document.documentElement.scrollWidth) - ambientOrb.offsetWidth - orbPadding;
+    const maxY = (orbUsesViewport ? innerHeight : document.documentElement.scrollHeight) - ambientOrb.offsetHeight - orbPadding;
+    const currentX = rect.left + (orbUsesViewport ? 0 : scrollX);
+    const currentY = rect.top + viewportOffset;
+    ambientOrb.style.left = `${Math.min(maxX, Math.max(minX, currentX))}px`;
+    ambientOrb.style.top = `${Math.min(maxY, Math.max(minY, currentY))}px`;
+    ambientOrb.style.right = 'auto';
+    ambientOrb.style.bottom = 'auto';
+  };
 
   ambientOrb.addEventListener('pointerdown', event => {
     const rect = ambientOrb.getBoundingClientRect();
@@ -281,12 +297,14 @@ if (ambientOrb) {
 
   ambientOrb.addEventListener('pointermove', event => {
     if (!ambientOrb.classList.contains('dragging')) return;
-    const maxX = (orbUsesViewport ? innerWidth : document.documentElement.scrollWidth) - ambientOrb.offsetWidth - 10;
-    const maxY = (orbUsesViewport ? innerHeight : document.documentElement.scrollHeight) - ambientOrb.offsetHeight - 10;
+    const minX = orbPadding;
+    const minY = (orbUsesViewport ? 0 : scrollY) + header.offsetHeight + orbPadding;
+    const maxX = (orbUsesViewport ? innerWidth : document.documentElement.scrollWidth) - ambientOrb.offsetWidth - orbPadding;
+    const maxY = (orbUsesViewport ? innerHeight : document.documentElement.scrollHeight) - ambientOrb.offsetHeight - orbPadding;
     const targetX = event.clientX + (orbUsesViewport ? 0 : scrollX) - dragOffsetX;
     const targetY = event.clientY + (orbUsesViewport ? 0 : scrollY) - dragOffsetY;
-    ambientOrb.style.left = `${Math.min(maxX, Math.max(10, targetX))}px`;
-    ambientOrb.style.top = `${Math.min(maxY, Math.max(10, targetY))}px`;
+    ambientOrb.style.left = `${Math.min(maxX, Math.max(minX, targetX))}px`;
+    ambientOrb.style.top = `${Math.min(maxY, Math.max(minY, targetY))}px`;
   });
 
   const stopDragging = event => {
@@ -294,8 +312,13 @@ if (ambientOrb) {
     ambientOrb.classList.remove('dragging');
     setRingSpeed(1);
     if ('vibrate' in navigator) navigator.vibrate(0);
+    keepOrbInsideSafeArea();
     if (ambientOrb.hasPointerCapture(event.pointerId)) ambientOrb.releasePointerCapture(event.pointerId);
   };
   ambientOrb.addEventListener('pointerup', stopDragging);
   ambientOrb.addEventListener('pointercancel', stopDragging);
+  addEventListener('resize', () => {
+    orbUsesViewport = getComputedStyle(ambientOrb).position === 'fixed';
+    keepOrbInsideSafeArea();
+  }, { passive: true });
 }

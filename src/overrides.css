@@ -487,6 +487,7 @@ button, .button, .social-links a { position: relative; overflow: hidden; }
 .ambient-orb:hover::after { opacity: 1; transform: translate(-50%, 0); }
 .ambient-orb:hover .orb-core { filter: saturate(1.25) brightness(1.08); }
 .ambient-orb.dragging { cursor: grabbing; animation: toy-shake .09s linear infinite; }
+.ambient-orb:not(.dragging) { transition: left .38s cubic-bezier(.16,1,.3,1), top .38s cubic-bezier(.16,1,.3,1), filter .3s; }
 .ambient-orb.dragging::after { content: "wheee"; opacity: 1; transform: translate(-50%, 0); }
 
 @keyframes ambient-drift {
