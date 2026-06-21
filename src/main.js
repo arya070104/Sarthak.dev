@@ -79,7 +79,7 @@ if (!reducedMotion && finePointer) {
   });
 }
 
-if (ambientOrb && finePointer) {
+if (ambientOrb) {
   let dragOffsetX = 0;
   let dragOffsetY = 0;
 
