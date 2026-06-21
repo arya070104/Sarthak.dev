@@ -213,6 +213,11 @@ const updateScrollUI = () => {
   progress.style.transform = `scaleX(${maxScroll > 0 ? scrollY / maxScroll : 0})`;
   header.classList.toggle('scrolled', scrollY > 24);
   backTop.classList.toggle('visible', scrollY > innerHeight * .75);
+  if (ambientOrb && !ambientOrb.classList.contains('dragging')) {
+    const orbRect = ambientOrb.getBoundingClientRect();
+    const crossingHeader = orbRect.bottom > 0 && orbRect.top < header.offsetHeight + 34;
+    ambientOrb.classList.toggle('orb-under-header', crossingHeader);
+  }
 };
 let scrollFrameRequested = false;
 addEventListener('scroll', () => {

@@ -1,7 +1,7 @@
 /* Final behavior override: decorative planet, independent of the pointer. */
 .ambient-orb {
   position: absolute;
-  z-index: 100;
+  z-index: 10;
   left: auto;
   right: 32px;
   top: 68vh;
@@ -487,7 +487,8 @@ button, .button, .social-links a { position: relative; overflow: hidden; }
 .ambient-orb:hover::after { opacity: 1; transform: translate(-50%, 0); }
 .ambient-orb:hover .orb-core { filter: saturate(1.25) brightness(1.08); }
 .ambient-orb.dragging { cursor: grabbing; animation: toy-shake .09s linear infinite; }
-.ambient-orb:not(.dragging) { transition: left .38s cubic-bezier(.16,1,.3,1), top .38s cubic-bezier(.16,1,.3,1), filter .3s; }
+.ambient-orb:not(.dragging) { transition: left .38s cubic-bezier(.16,1,.3,1), top .38s cubic-bezier(.16,1,.3,1), filter .3s, opacity .28s, scale .38s cubic-bezier(.16,1,.3,1); }
+.ambient-orb.orb-under-header { opacity: 0 !important; scale: .78; pointer-events: none; }
 .ambient-orb.dragging::after { content: "wheee"; opacity: 1; transform: translate(-50%, 0); }
 
 @keyframes ambient-drift {
@@ -735,7 +736,7 @@ html[data-theme="dark"] .project-card.wide .text-art {
   .ambient-orb {
     display: block !important;
     position: fixed;
-    z-index: 100;
+    z-index: 10;
     left: auto;
     right: max(12px, env(safe-area-inset-right));
     top: auto;
