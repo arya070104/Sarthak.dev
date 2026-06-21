@@ -23,13 +23,34 @@ themeToggle.addEventListener('click', () => {
 const observer = new IntersectionObserver(entries => entries.forEach(entry => {
   if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
 }), { threshold: .12 });
-document.querySelectorAll('.reveal').forEach((el, i) => { if (i < 6) el.style.transitionDelay = `${i * 65}ms`; observer.observe(el); });
+document.querySelectorAll('section').forEach(section => {
+  section.querySelectorAll('.reveal').forEach((element, index) => {
+    element.style.setProperty('--reveal-delay', `${Math.min(index, 5) * 75}ms`);
+  });
+});
+document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+requestAnimationFrame(() => document.body.classList.add('page-ready'));
 const mark = document.querySelector('.hero-mark');
 const ambientOrb = document.querySelector('.ambient-orb');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = matchMedia('(pointer: fine)').matches;
 const header = document.querySelector('.site-header');
 const progress = document.querySelector('.scroll-progress');
+
+const navSections = [...document.querySelectorAll('main section[id]')];
+const navLinks = [...document.querySelectorAll('nav a[href^="#"]')];
+const activeSectionObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    navLinks.forEach(link => {
+      const active = link.getAttribute('href') === `#${entry.target.id}`;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  });
+}, { rootMargin: '-35% 0px -55%', threshold: 0 });
+navSections.forEach(section => activeSectionObserver.observe(section));
 
 // Persistent timelines keep their exact angle while playback speed changes.
 const ringAnimations = [];
