@@ -69,22 +69,36 @@ if (mark && !reducedMotion) {
   if (secondOrbit) heroOrbitAnimations.push(secondOrbit);
 }
 
-const setHeroOrbitSpeed = speed => heroOrbitAnimations.forEach(animation => {
-  if (animation.updatePlaybackRate) animation.updatePlaybackRate(speed);
-  else animation.playbackRate = speed;
-});
+let heroSpeedFrame = 0;
+const setHeroOrbitSpeed = (targetSpeed, duration = 420) => {
+  cancelAnimationFrame(heroSpeedFrame);
+  const startingSpeeds = heroOrbitAnimations.map(animation => animation.playbackRate || 1);
+  const startedAt = performance.now();
+
+  const ease = value => 1 - Math.pow(1 - value, 3);
+  const updateSpeed = now => {
+    const progress = Math.min(1, (now - startedAt) / duration);
+    const easedProgress = ease(progress);
+    heroOrbitAnimations.forEach((animation, index) => {
+      animation.playbackRate = startingSpeeds[index] + (targetSpeed - startingSpeeds[index]) * easedProgress;
+    });
+    if (progress < 1) heroSpeedFrame = requestAnimationFrame(updateSpeed);
+  };
+
+  heroSpeedFrame = requestAnimationFrame(updateSpeed);
+};
 
 const pressHeroPlanet = () => {
   if (!mark || mark.classList.contains('planet-pressed')) return;
   mark.classList.add('planet-pressed');
-  setHeroOrbitSpeed(5.5);
+  setHeroOrbitSpeed(4.25, 480);
   if ('vibrate' in navigator) navigator.vibrate([30, 20, 30]);
 };
 
 const releaseHeroPlanet = () => {
   if (!mark?.classList.contains('planet-pressed')) return;
   mark.classList.remove('planet-pressed');
-  setHeroOrbitSpeed(1);
+  setHeroOrbitSpeed(1, 620);
   if ('vibrate' in navigator) navigator.vibrate(0);
 };
 
