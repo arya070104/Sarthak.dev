@@ -290,3 +290,17 @@ html[data-theme="dark"] .project-card.wide .text-art {
 @media (prefers-reduced-motion: reduce) {
   .ambient-orb { display: none !important; }
 }
+
+/* Stronger personal wordmark */
+.brand-name {
+  font-size: 1.08rem;
+  line-height: .86;
+  letter-spacing: -.045em;
+}
+
+.brand-name i:last-child { margin-left: 22px; }
+
+@media (max-width: 600px) {
+  .brand-name { font-size: .78rem; }
+  .brand-name i:last-child { margin-left: 13px; }
+}
