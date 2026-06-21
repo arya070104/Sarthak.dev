@@ -53,6 +53,60 @@ const setRingSpeed = speed => ringAnimations.forEach(animation => {
   else animation.playbackRate = speed;
 });
 
+const heroOrbitAnimations = [];
+if (mark && !reducedMotion) {
+  const firstOrbit = mark.querySelector('.orbit.one')?.animate([
+    { transform: 'rotate(42deg)' },
+    { transform: 'rotate(402deg)' },
+  ], { duration: 14000, iterations: Infinity, easing: 'linear' });
+
+  const secondOrbit = mark.querySelector('.orbit.two')?.animate([
+    { transform: 'rotate(-32deg)' },
+    { transform: 'rotate(-392deg)' },
+  ], { duration: 18000, iterations: Infinity, easing: 'linear' });
+
+  if (firstOrbit) heroOrbitAnimations.push(firstOrbit);
+  if (secondOrbit) heroOrbitAnimations.push(secondOrbit);
+}
+
+const setHeroOrbitSpeed = speed => heroOrbitAnimations.forEach(animation => {
+  if (animation.updatePlaybackRate) animation.updatePlaybackRate(speed);
+  else animation.playbackRate = speed;
+});
+
+const pressHeroPlanet = () => {
+  if (!mark || mark.classList.contains('planet-pressed')) return;
+  mark.classList.add('planet-pressed');
+  setHeroOrbitSpeed(5.5);
+  if ('vibrate' in navigator) navigator.vibrate([30, 20, 30]);
+};
+
+const releaseHeroPlanet = () => {
+  if (!mark?.classList.contains('planet-pressed')) return;
+  mark.classList.remove('planet-pressed');
+  setHeroOrbitSpeed(1);
+  if ('vibrate' in navigator) navigator.vibrate(0);
+};
+
+if (mark) {
+  mark.addEventListener('pointerdown', event => {
+    pressHeroPlanet();
+    mark.setPointerCapture(event.pointerId);
+  });
+  mark.addEventListener('pointerup', releaseHeroPlanet);
+  mark.addEventListener('pointercancel', releaseHeroPlanet);
+  mark.addEventListener('keydown', event => {
+    if (event.key === ' ' || event.key === 'Enter') {
+      event.preventDefault();
+      pressHeroPlanet();
+    }
+  });
+  mark.addEventListener('keyup', event => {
+    if (event.key === ' ' || event.key === 'Enter') releaseHeroPlanet();
+  });
+  mark.addEventListener('blur', releaseHeroPlanet);
+}
+
 const updateScrollUI = () => {
   const maxScroll = document.documentElement.scrollHeight - innerHeight;
   progress.style.transform = `scaleX(${maxScroll > 0 ? scrollY / maxScroll : 0})`;
