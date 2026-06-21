@@ -140,9 +140,11 @@ updateScrollUI();
 if (!reducedMotion && finePointer) {
   const pointerTarget = { x: innerWidth / 2, y: innerHeight / 2 };
   const pointerCurrent = { ...pointerTarget };
+  let pointerFrame = 0;
   addEventListener('pointermove', e => {
     pointerTarget.x = e.clientX;
     pointerTarget.y = e.clientY;
+    if (!pointerFrame) pointerFrame = requestAnimationFrame(renderPointer);
   });
 
   const renderPointer = () => {
@@ -151,9 +153,9 @@ if (!reducedMotion && finePointer) {
     mark.style.translate = `${(pointerCurrent.x / innerWidth - .5) * 8}px ${(pointerCurrent.y / innerHeight - .5) * 8}px`;
     document.documentElement.style.setProperty('--cursor-x', `${pointerCurrent.x}px`);
     document.documentElement.style.setProperty('--cursor-y', `${pointerCurrent.y}px`);
-    requestAnimationFrame(renderPointer);
+    const stillMoving = Math.abs(pointerTarget.x - pointerCurrent.x) > .2 || Math.abs(pointerTarget.y - pointerCurrent.y) > .2;
+    pointerFrame = stillMoving ? requestAnimationFrame(renderPointer) : 0;
   };
-  requestAnimationFrame(renderPointer);
 
   document.querySelectorAll('.project-card, .featured').forEach(card => {
     card.classList.add('interactive-card');
@@ -172,13 +174,15 @@ if (!reducedMotion && finePointer) {
 if (ambientOrb) {
   let dragOffsetX = 0;
   let dragOffsetY = 0;
+  let orbUsesViewport = false;
 
   ambientOrb.addEventListener('pointerdown', event => {
     const rect = ambientOrb.getBoundingClientRect();
+    orbUsesViewport = getComputedStyle(ambientOrb).position === 'fixed';
     dragOffsetX = event.clientX - rect.left;
     dragOffsetY = event.clientY - rect.top;
-    ambientOrb.style.left = `${rect.left + scrollX}px`;
-    ambientOrb.style.top = `${rect.top + scrollY}px`;
+    ambientOrb.style.left = `${rect.left + (orbUsesViewport ? 0 : scrollX)}px`;
+    ambientOrb.style.top = `${rect.top + (orbUsesViewport ? 0 : scrollY)}px`;
     ambientOrb.style.right = 'auto';
     ambientOrb.style.bottom = 'auto';
     ambientOrb.classList.add('dragging');
@@ -189,12 +193,12 @@ if (ambientOrb) {
 
   ambientOrb.addEventListener('pointermove', event => {
     if (!ambientOrb.classList.contains('dragging')) return;
-    const maxX = document.documentElement.scrollWidth - ambientOrb.offsetWidth - 10;
-    const maxY = document.documentElement.scrollHeight - ambientOrb.offsetHeight - 10;
-    const documentX = event.clientX + scrollX - dragOffsetX;
-    const documentY = event.clientY + scrollY - dragOffsetY;
-    ambientOrb.style.left = `${Math.min(maxX, Math.max(10, documentX))}px`;
-    ambientOrb.style.top = `${Math.min(maxY, Math.max(10, documentY))}px`;
+    const maxX = (orbUsesViewport ? innerWidth : document.documentElement.scrollWidth) - ambientOrb.offsetWidth - 10;
+    const maxY = (orbUsesViewport ? innerHeight : document.documentElement.scrollHeight) - ambientOrb.offsetHeight - 10;
+    const targetX = event.clientX + (orbUsesViewport ? 0 : scrollX) - dragOffsetX;
+    const targetY = event.clientY + (orbUsesViewport ? 0 : scrollY) - dragOffsetY;
+    ambientOrb.style.left = `${Math.min(maxX, Math.max(10, targetX))}px`;
+    ambientOrb.style.top = `${Math.min(maxY, Math.max(10, targetY))}px`;
   });
 
   const stopDragging = event => {
